@@ -11,26 +11,6 @@ Ready = false
 --                          QB                           --
 ------------------------------------------------------------
 
--- AddEventHandler("playerSpawned", function(spawn)
---     Citizen.CreateThread(function()
---         -- Wait for ESX
---         while ESX == nil do
---             Citizen.Wait(10)
---             TriggerEvent("esx:getSharedObject", function(esx)
---                 ESX = esx
---             end)
---         end
-        
---         -- Wait for ESX player
---         while not ESX.IsPlayerLoaded() do
---             Citizen.Wait(10)
---         end
-        
---         -- Initialise
---         TriggerServerEvent("qb_xpxp:load")
---     end)	
--- end)
-
 QBCore = nil
 Citizen.CreateThread(function() 
     while QBCore == nil do
@@ -90,9 +70,6 @@ AddEventHandler("qb_xpxp:init", function(_xp, _rank, players)
         -- Update UI
         SendNUIMessage(data)
 
-        -- Set ESX properties
-        -- ESX.SetPlayerData("xp", CurrentXP)
-        -- ESX.SetPlayerData("rank", CurrentRank)
         TriggerServerEvent("qb-xp:SetXP",CurrentXP, CurrentRank)  
     
         -- Native stats
@@ -103,7 +80,7 @@ AddEventHandler("qb_xpxp:init", function(_xp, _rank, players)
 
         -- Trigger event
         TriggerEvent("qb_xpxp:ready", {
-            xPlayer = ESX.GetPlayerData(),
+            Player = QBCore.Functions.GetPlayerData(),
             xp = CurrentXP,
             rank = CurrentRank
         })
@@ -125,9 +102,6 @@ AddEventHandler("qb_xpxp:update", function(_xp, _rank)
     CurrentXP = newXP
     CurrentRank = newRank
 
-    -- Set ESX properties
-    -- Player.Functions.SetMetaData("xp", CurrentXP)
-    -- Player.Functions.SetMetaData("rank", CurrentRank)
     TriggerServerEvent("qb-xp:SetXP",CurrentXP, CurrentRank)   
 end)
 
